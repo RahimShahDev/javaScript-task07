@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data</title>
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+
+<body>
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const tableBody = document.querySelector('#userTable tbody');
+
+        users.forEach((user, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.name}</td>
+                <td>${user.address}</td>
+                <td>${user.contact}</td>
+                <td>${user.email}</td>
+                <td><a href="index.html?id=${index}">Edit</a></td>
+            `;
+            tableBody.appendChild(row);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <div class="user_card">
+        <input type="text" id="name" placeholder="Enter your Name" required>
+        <input type="text" id="address" placeholder="Enter Address" required>
+        <input type="text" maxlength="12" id="contact" placeholder="Enter Contact" required>
+        <input type="email" id="email" placeholder="Enter Email" required>
+        <button id="submit">Submit</button>
+        <button id="update" style="display:none;">Update</button>
+    </div>
+
+    <script>
+        let editIndex = -1; // Initialize editIndex
+
+        function populateForm(user) {
+            document.getElementById('name').value = user.name;
+            document.getElementById('address').value = user.address;
+            document.getElementById('contact').value = user.contact;
+            document.getElementById('email').value = user.email;
+            document.getElementById('submit').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+        }
+
+        document.getElementById('submit').addEventListener('click', function () {
+            const name = document.getElementById('name').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const contact = document.getElementById('contact').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !address || !contact || !email) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            const user = { name, address, contact, email };
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            users.push(user);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            window.location.href = "/display.html";
+        });
+
+        document.getElementById('update').addEventListener('click', function () {
+            const name = document.getElementById('name').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const contact = document.getElementById('contact').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (!name || !address || !contact || !email) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            users[editIndex] = { name, address, contact, email }; 
+            localStorage.setItem('users', JSON.stringify(users));
+
+            window.location.href = "/display.html";
+        });
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        editIndex = urlParams.get('id'); // Get the edit index from URL
+
+        if (editIndex !== null) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users[editIndex]; // Find user by editIndex
+            if (user) {
+                populateForm(user); // Populate the form with user data
+            }
+        }
+    </script>
+</body>
+
+</html>
