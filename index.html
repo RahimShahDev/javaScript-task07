@@ -47,7 +47,7 @@
             users.push(user);
             localStorage.setItem('users', JSON.stringify(users));
 
-            window.location.href = "/display.html";
+            window.location.href = "./display.html";
         });
 
         document.getElementById('update').addEventListener('click', function () {
@@ -65,7 +65,7 @@
             users[editIndex] = { name, address, contact, email }; 
             localStorage.setItem('users', JSON.stringify(users));
 
-            window.location.href = "/display.html";
+            window.location.href = "./display.html";
         });
 
         const queryString = window.location.search;
